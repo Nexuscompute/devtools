@@ -12,6 +12,7 @@ import '../ui/search.dart';
 import '../utils.dart';
 import 'debugger_controller.dart';
 import 'debugger_model.dart';
+import 'dart:convert';
 
 const int numOfMatchesToShow = 10;
 const double autocompleteMatchTileHeight = 50.0;
@@ -41,6 +42,8 @@ class _FileSearchFieldState extends State<FileSearchField>
   void initState() {
     super.initState();
 
+    print('===== INIT STATE');
+
     _autoCompleteController = AutoCompleteController()..currentDefaultIndex = 0;
 
     addAutoDisposeListener(
@@ -56,6 +59,7 @@ class _FileSearchFieldState extends State<FileSearchField>
   }
 
   void _handleSearch() {
+    print('===== HANDLE SEARCH');
     final previousQuery = _query;
     final currentQuery = _autoCompleteController.search;
 
@@ -66,6 +70,7 @@ class _FileSearchFieldState extends State<FileSearchField>
         : widget.controller.sortedScripts.value;
 
     final matches = findMatches(currentQuery, scripts);
+    print('===== matches are $matches');
     if (matches.isEmpty) {
       _autoCompleteController.searchAutoComplete.value = ['No files found.'];
     } else {
@@ -73,6 +78,8 @@ class _FileSearchFieldState extends State<FileSearchField>
       topMatches.forEach(_addScriptRefToCache);
       _autoCompleteController.searchAutoComplete.value =
           topMatches.map((scriptRef) => scriptRef.uri).toList();
+      print(
+          'autocomplete controller ${_autoCompleteController.searchAutoComplete.value}');
     }
 
     _query = currentQuery;
@@ -136,10 +143,6 @@ List<ScriptRef> findMatches(
 
   final exactMatches = [];
   final fuzzyMatches = [];
-
-  if (scriptRefs.length < 10) {
-    print(scriptRefs);
-  }
 
   for (final scriptRef in scriptRefs) {
     final fullPath = scriptRef.uri;

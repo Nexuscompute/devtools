@@ -15,6 +15,7 @@ import 'package:devtools_app/src/performance/performance_controller.dart';
 import 'package:devtools_app/src/profiler/profiler_screen_controller.dart';
 import 'package:devtools_app/src/routing.dart';
 import 'package:devtools_app/src/theme.dart';
+import 'package:devtools_app/src/ui/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -61,6 +62,16 @@ Widget wrapWithAnalytics(
   );
 }
 
+Widget wrapWithAutoComplete(
+  Widget widget,
+  AutoCompleteController controller,
+) {
+  return Provider<AutoCompleteController>.value(
+    value: controller,
+    child: widget,
+  );
+}
+
 Widget wrapWithControllers(
   Widget widget, {
   LoggingController logging,
@@ -72,6 +83,7 @@ Widget wrapWithControllers(
   BannerMessagesController bannerMessages,
   AppSizeController appSize,
   AnalyticsController analytics,
+  AutoCompleteController autoComplete,
 }) {
   final _providers = [
     Provider<BannerMessagesController>.value(
@@ -88,6 +100,8 @@ Widget wrapWithControllers(
     if (appSize != null) Provider<AppSizeController>.value(value: appSize),
     if (analytics != null)
       Provider<AnalyticsController>.value(value: analytics),
+    if (autoComplete != null)
+      Provider<AutoCompleteController>.value(value: autoComplete),
   ];
   return wrap(
     wrapWithNotifications(
