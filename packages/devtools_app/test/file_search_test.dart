@@ -59,6 +59,8 @@ void main() {
       // await tester.pumpAndSettle();
 
       // debugDumpApp();
+      print('AUTOCOMPLETE CONTROLLER IS ${autoCompleteController}');
+      print('VALUE IS ${autoCompleteController.searchAutoComplete.value}');
       expect(autoCompleteController.searchAutoComplete.value,
           equals(mockScriptRefs));
     });

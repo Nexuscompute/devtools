@@ -78,6 +78,7 @@ class _FileSearchFieldState extends State<FileSearchField>
       topMatches.forEach(_addScriptRefToCache);
       _autoCompleteController.searchAutoComplete.value =
           topMatches.map((scriptRef) => scriptRef.uri).toList();
+      print('AUTOCOMPLKETE HERE IS $_autoCompleteController');
       print(
           'autocomplete controller ${_autoCompleteController.searchAutoComplete.value}');
     }
