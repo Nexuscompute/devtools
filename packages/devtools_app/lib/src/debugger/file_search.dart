@@ -75,10 +75,8 @@ class _FileSearchFieldState extends State<FileSearchField>
           topMatches.map((scriptRef) => scriptRef.uri).toList();
     }
 
-    setState(() {
-      _query = currentQuery;
-      _matches = matches;
-    });
+    _query = currentQuery;
+    _matches = matches;
   }
 
   void _handleAutoCompleteOverlay() {
@@ -136,17 +134,22 @@ List<ScriptRef> findMatches(
     return scriptRefs;
   }
 
-  final exactMatches = scriptRefs
-      .where((scriptRef) => scriptRef.uri.caseInsensitiveContains(query))
-      .toList();
+  final exactMatches = [];
+  final fuzzyMatches = [];
 
-  if (exactMatches.length >= numOfMatchesToShow) {
-    return exactMatches;
+  if (scriptRefs.length < 10) {
+    print(scriptRefs);
   }
 
-  final fuzzyMatches = scriptRefs
-      .where((scriptRef) => scriptRef.uri.caseInsensitiveFuzzyMatch(query))
-      .toList();
+  for (final scriptRef in scriptRefs) {
+    final fullPath = scriptRef.uri;
+    final fileName = scriptRef.uri.split('/').last;
+    if (fullPath.caseInsensitiveContains(query)) {
+      exactMatches.add(scriptRef);
+    } else if (fileName.caseInsensitiveFuzzyMatch(query)) {
+      fuzzyMatches.add(scriptRef);
+    }
+  }
 
   return [...exactMatches, ...fuzzyMatches];
 }
