@@ -1359,11 +1359,11 @@ final mockParsedScript = ParsedScript(
     executableLines: <int>{});
 
 final mockScriptRefs = [
-  ScriptRef(uri: 'package:animals/cats/meow.dart', id: 'fake/id/1'),
-  ScriptRef(uri: 'package:animals/cats/purr.dart', id: 'fake/id/2'),
-  ScriptRef(uri: 'package:animals/dogs/bark.dart', id: 'fake/id/3'),
-  ScriptRef(uri: 'package:animals/dogs/growl.dart', id: 'fake/id/4'),
-  ScriptRef(uri: 'package:animals/insects/caterpillar.dart', id: 'fake/id/5'),
+  ScriptRef(uri: 'animals/cats/meow.dart', id: 'fake/id/1'),
+  ScriptRef(uri: 'animals/cats/purr.dart', id: 'fake/id/2'),
+  ScriptRef(uri: 'animals/dogs/bark.dart', id: 'fake/id/3'),
+  ScriptRef(uri: 'animals/dogs/growl.dart', id: 'fake/id/4'),
+  ScriptRef(uri: 'animals/insects/caterpillar.dart', id: 'fake/id/5'),
   ScriptRef(uri: 'animals/insects/cicada.dart', id: 'fake/id/6'),
   ScriptRef(uri: 'food/catering/party.dart', id: 'fake/id/7'),
   ScriptRef(uri: 'food/carton/milk.dart', id: 'fake/id/8'),

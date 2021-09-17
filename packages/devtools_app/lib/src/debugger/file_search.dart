@@ -12,7 +12,6 @@ import '../ui/search.dart';
 import '../utils.dart';
 import 'debugger_controller.dart';
 import 'debugger_model.dart';
-import 'dart:convert';
 
 const int numOfMatchesToShow = 10;
 const double autocompleteMatchTileHeight = 50.0;
@@ -20,9 +19,11 @@ const double autocompleteMatchTileHeight = 50.0;
 class FileSearchField extends StatefulWidget {
   const FileSearchField({
     @required this.controller,
+    @required this.autoCompleteController,
   });
 
   final DebuggerController controller;
+  final AutoCompleteController autoCompleteController;
 
   @override
   _FileSearchFieldState createState() => _FileSearchFieldState();
@@ -42,9 +43,7 @@ class _FileSearchFieldState extends State<FileSearchField>
   void initState() {
     super.initState();
 
-    print('===== INIT STATE');
-
-    _autoCompleteController = AutoCompleteController()..currentDefaultIndex = 0;
+    _autoCompleteController = widget.autoCompleteController;
 
     addAutoDisposeListener(
         _autoCompleteController.searchNotifier, _handleSearch);
@@ -59,7 +58,6 @@ class _FileSearchFieldState extends State<FileSearchField>
   }
 
   void _handleSearch() {
-    print('===== HANDLE SEARCH');
     final previousQuery = _query;
     final currentQuery = _autoCompleteController.search;
 
@@ -70,7 +68,6 @@ class _FileSearchFieldState extends State<FileSearchField>
         : widget.controller.sortedScripts.value;
 
     final matches = findMatches(currentQuery, scripts);
-    print('===== matches are $matches');
     if (matches.isEmpty) {
       _autoCompleteController.searchAutoComplete.value = ['No files found.'];
     } else {
@@ -78,9 +75,6 @@ class _FileSearchFieldState extends State<FileSearchField>
       topMatches.forEach(_addScriptRefToCache);
       _autoCompleteController.searchAutoComplete.value =
           topMatches.map((scriptRef) => scriptRef.uri).toList();
-      print('AUTOCOMPLKETE HERE IS $_autoCompleteController');
-      print(
-          'autocomplete controller ${_autoCompleteController.searchAutoComplete.value}');
     }
 
     _query = currentQuery;
