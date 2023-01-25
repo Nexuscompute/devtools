@@ -50,7 +50,7 @@ These packages always have their version numbers updated in lock, so we don't ha
    * that the version for the CHANGELOG entry was correctly generated
    * that the entries don't have any syntax errors.
 
-### Test the CLEAN_BRANCH 
+### Test the CLEAN_BRANCH
 > You only need to do this on the `$DEVTOOLS_RELEASE_BRANCH` branch
 
 - Checkout the `$DEVTOOLS_RELEASE_BRANCH`,
@@ -116,7 +116,7 @@ for details on where to add DevTools release notes to Flutter website and how to
 - Follow the release notes
 [README.md](https://github.com/flutter/devtools/blob/master/packages/devtools_app/lib/src/framework/release_notes/README.md)
 to add release notes to Flutter website
-  - On the `$DEVTOOLS_RELEASE_BRANCH` copy the release notes from [NEXT_RELEASE_NOTES.md](./release_notes/NEXT_RELEASE_NOTES.md)
+  - On the `$DEVTOOLS_RELEASE_BRANCH` copy the release notes from [NEXT_RELEASE_NOTES.md](../packages/devtools_app/NEXT_RELEASE_NOTES.md)
     - These are the release notes you will submit through the flutter/website PR.
   - make sure to also follow the instructions to test them.
 
@@ -130,7 +130,15 @@ to add release notes to Flutter website
    ```shell
    cd $LOCAL_DART_SDK && \
    git rebase-update && \
-   third_party/devtools/update.sh $TARGET_COMMIT_HASH;
+   third_party/devtools/update.sh $TARGET_COMMIT_HASH [optional --no-update-flutter];
+   ```
+For cherry pick releases that need to be built from a specific version of Flutter,
+checkout the Flutter version on your local flutter repo (the Flutter SDK that
+`which flutter` points to). Then when you run the `update.sh` command, include the
+`--no-update-flutter` flag:
+
+   ```shell
+   third_party/devtools/update.sh $TARGET_COMMIT_HASH --no-update-flutter
    ```
 
 ### Update the DevTools hash in the Dart SDK

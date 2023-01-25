@@ -2,16 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:ui' as ui;
+
 import 'package:devtools_app/devtools_app.dart';
-import 'package:devtools_app/src/app.dart';
 import 'package:devtools_app/src/framework/landing_screen.dart';
 import 'package:devtools_app/src/framework/release_notes/release_notes.dart';
 import 'package:devtools_app/src/shared/primitives/simple_items.dart';
+import 'package:devtools_test/devtools_integration_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-
-import 'test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +21,11 @@ void main() {
   setUpAll(() {
     testApp = TestApp.fromEnvironment();
     expect(testApp.vmServiceUri, isNotNull);
+  });
+
+  tearDown(() async {
+    // This is required to have multiple test cases in this file.
+    await (ui.window as dynamic).resetHistory();
   });
 
   testWidgets('connect to app and switch tabs', (tester) async {

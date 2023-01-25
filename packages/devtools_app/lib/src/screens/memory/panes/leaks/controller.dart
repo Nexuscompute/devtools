@@ -37,7 +37,7 @@ class LeaksPaneController {
   final leakSummaryHistory = ValueNotifier<String>('');
   late String appProtocolVersion;
   final appStatus =
-      ValueNotifier<AppStatus>(AppStatus.noCommunicationsRecieved);
+      ValueNotifier<AppStatus>(AppStatus.noCommunicationsReceived);
 
   LeakSummary? _lastLeakSummary;
 
@@ -67,9 +67,10 @@ class LeaksPaneController {
       if (message.matches(_lastLeakSummary)) return;
       _lastLeakSummary = message;
 
-      leakSummaryHistory.value =
-          '${formatDateTime(message.time)}: ${message.toMessage()}\n'
-          '${leakSummaryHistory.value}';
+      _addToLeakSummaryHistory(
+        '${formatDateTime(message.time)}: ${message.toMessage()}',
+      );
+
       return;
     }
 
@@ -92,6 +93,8 @@ class LeaksPaneController {
           await _invokeLeakExtension<RequestForLeakDetails, Leaks>(
         RequestForLeakDetails(),
       );
+
+      _addToLeakSummaryHistory('Collected leaks.');
 
       final notGCed = leakDetails.byType[LeakType.notGCed] ?? [];
 
@@ -175,7 +178,7 @@ class LeaksPaneController {
     switch (appStatus.value) {
       case AppStatus.leakTrackingNotSupported:
         return 'The application does not support leak tracking.';
-      case AppStatus.noCommunicationsRecieved:
+      case AppStatus.noCommunicationsReceived:
         return 'Waiting for leak tracking messages from the application...';
       case AppStatus.unsupportedProtocolVersion:
         return 'The application uses unsupported leak tracking protocol $appProtocolVersion. '
@@ -185,5 +188,10 @@ class LeaksPaneController {
       case AppStatus.leaksFound:
         throw StateError('There is no UI message for ${AppStatus.leaksFound}.');
     }
+  }
+
+  void _addToLeakSummaryHistory(String entry) {
+    leakSummaryHistory.value = '$entry\n'
+        '${leakSummaryHistory.value}';
   }
 }

@@ -3,9 +3,9 @@
 // found in the LICENSE file.
 
 import 'package:devtools_app/src/screens/memory/shared/heap/heap.dart';
-import 'package:devtools_app/src/screens/memory/shared/heap/model.dart';
 import 'package:devtools_app/src/screens/memory/shared/heap/spanning_tree.dart';
-import 'package:devtools_app/src/screens/memory/shared/primitives/class_name.dart';
+import 'package:devtools_app/src/shared/memory/adapted_heap_data.dart';
+import 'package:devtools_app/src/shared/memory/class_name.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
@@ -86,7 +86,7 @@ final _classSizeTests = <_ClassSizeTest>[
 void main() {
   test('$SingleClassStats does not double-count self-referenced classes.', () {
     for (final t in _classSizeTests) {
-      final classes = SingleClassStats(_classA);
+      final classes = SingleClassStats(heapClass: _classA);
       for (final o in t.heap.objects) {
         if (o.heapClass == _classA) classes.countInstance(t.heap, o.code);
       }

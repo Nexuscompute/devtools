@@ -15,9 +15,10 @@ import '../screens/debugger/debugger_controller.dart';
 import 'analytics/analytics.dart' as ga;
 import 'config_specific/launch_url/launch_url.dart';
 import 'console/widgets/expandable_variable.dart';
+import 'diagnostics/dart_object_node.dart';
+import 'diagnostics/tree_builder.dart';
 import 'dialogs.dart';
 import 'globals.dart';
-import 'object_tree.dart';
 import 'primitives/auto_dispose.dart';
 import 'primitives/flutter_widgets/linked_scroll_controller.dart';
 import 'primitives/utils.dart';
@@ -1158,11 +1159,13 @@ class FilterButton extends StatelessWidget {
     required this.onPressed,
     required this.isFilterActive,
     this.message = 'Filter',
+    this.outlined = true,
   }) : super(key: key);
 
   final VoidCallback onPressed;
   final bool isFilterActive;
   final String message;
+  final bool outlined;
 
   @override
   Widget build(BuildContext context) {
@@ -1171,6 +1174,7 @@ class FilterButton extends StatelessWidget {
       isSelected: isFilterActive,
       message: message,
       icon: Icons.filter_list,
+      outlined: outlined,
     );
   }
 }

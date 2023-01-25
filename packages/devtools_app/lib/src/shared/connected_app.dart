@@ -11,9 +11,9 @@ import '../service/service_registrations.dart' as registrations;
 import 'config_specific/import_export/import_export.dart';
 import 'config_specific/logger/logger.dart' as logger;
 import 'console/primitives/eval_history.dart';
+import 'diagnostics/dart_object_node.dart';
 import 'eval_on_dart_library.dart';
 import 'globals.dart';
-import 'object_tree.dart';
 import 'primitives/auto_dispose.dart';
 import 'title.dart';
 import 'version.dart';
@@ -250,12 +250,6 @@ class AppState extends DisposableController with AutoDisposeControllerMixin {
   final _variables = ValueNotifier<List<DartObjectNode>>([]);
   void setVariables(List<DartObjectNode> value) => _variables.value = value;
 
-  ValueListenable<bool> get isPaused => _isPaused;
-  final _isPaused = ValueNotifier<bool>(false);
-
-  /// This setter should be invoked only by debugger.
-  void setPausedOnBreakpoint(bool value) => _isPaused.value = value;
-
   ValueListenable<Frame?> get currentFrame => _currentFrame;
   final _currentFrame = ValueNotifier<Frame?>(null);
   void setCurrentFrame(Frame? value) => _currentFrame.value = value;
@@ -267,7 +261,6 @@ class AppState extends DisposableController with AutoDisposeControllerMixin {
   @override
   void dispose() {
     _variables.dispose();
-    _isPaused.dispose();
     _currentFrame.dispose();
     super.dispose();
   }
